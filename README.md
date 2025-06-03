@@ -101,11 +101,17 @@ Si el estudiante si esta matriculado arroja un mensaje de "Ya existe"
 El ENV del a app es
 
 DB_CONNECTION=sqlsrv
+
 DB_HOST=ANALISTAP01-174\\SQLEXPRESS
+
 DB_PORT=1433
+
 DB_DATABASE=laravel
+
 DB_USERNAME=evaluacion
+
 DB_PASSWORD=evaluacion
+
 
 //Para poder usarlo deben de crear una cuenta de usuario por el Started KIT, luego podran acceder
 
@@ -116,9 +122,11 @@ De ahi la funcionalidad, de mostrar las materias matriculadas, de eliminarlas, y
 Pueden probar con los datos de pruebas de:
 
 CARNET: AA19114
+
 CARNET: CC19114
 
 CODIGO MATERIA:  MAT115
+
 CODIGO MATERIA:  MET115
 
 
