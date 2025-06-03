@@ -18,7 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
 
-    Route::get('matricula', Matriculas::class);
+    Route::get('matricular', Matriculas::class)->name('matricular');
 
 
     Route::get('settings/profile', Profile::class)->name('settings.profile');

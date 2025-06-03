@@ -20,16 +20,6 @@ class Matriculas extends Component
         return view('livewire.matriculas');
     }
 
-    public function create()
-    {
-        $this->id_estudiante = DB::table('estudiantes')->where('carnet', '=', $this->carnet)->get("id");
-
-        // $matricula = Matricula::create([
-        //     'id_estudiante' => 'London to Paris',
-        //     'id_materia' => 'London to Paris',
-        // ]);
-    }
-
     public function matricular()
     {
 
@@ -38,16 +28,14 @@ class Matriculas extends Component
             "codigo" => "required"
         ]);
 
+        $var = DB::statement('EXEC sp_matricular_estudiante ?, ?', [$this->codigo, $this->carnet]);
+
         $this->id_estudiante = DB::table('estudiantes')->where('carnet', '=', $this->carnet)->get("id");
-
-
         $this->id_materia = DB::table('materias')->where('codigo', '=', $this->codigo)->get("id");
 
-        if ($this->id_estudiante == "") {
+        if ($this->carnet == "") {
             $this->mensaje = "No existe registro";
         } else {
-            $var = DB::statement("EXEC sp_matricular_estudiante @Carnet='?', @Codigo='?'", [$this->carnet, $this->codigo]);
-
             if (sizeof($this->id_estudiante) > 0) {
                 $this->materias_matriculadas = DB::table("materias")->join('matriculas', 'materias.id', '=', 'matriculas.id_materia')->where('matriculas.id_estudiante', "=",  $this->id_estudiante[0]->id)->get();
             } else {
@@ -57,4 +45,18 @@ class Matriculas extends Component
 
         return view('livewire.matriculas');
     }
+
+    public function eliminar($id){
+        Matricula::destroy($id);
+         if ($this->carnet == "") {
+            $this->mensaje = "No existe registro";
+        } else {
+            if (sizeof($this->id_estudiante) > 0) {
+                $this->materias_matriculadas = DB::table("materias")->join('matriculas', 'materias.id', '=', 'matriculas.id_materia')->where('matriculas.id_estudiante', "=",  $this->id_estudiante[0]->id)->get();
+            } else {
+                $this->reset(["materias_matriculadas"]);
+            }
+        }
+    }
+
 }
